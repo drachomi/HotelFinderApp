@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+
+    tools:context="com.richard.abigayle.hotelfinder.Activities.SearchActivity">
+
+
+
+    <TextView
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Search for your location"/>
+    <android.support.v7.widget.CardView
+        android:background="#c6c4c4"
+        android:layout_margin="10dp"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <fragment
+            android:id="@+id/place_autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            />
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+    <TextView
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Check In"/>
+
+    <LinearLayout
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:onClick="CheckIn"
+            android:background="#edecec"
+            android:layout_marginEnd="30dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Check In"/>
+
+
+
+        <Button
+            android:onClick="CheckOut"
+            android:background="#edecec"
+            android:layout_marginStart="30dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Check Out"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Number Of Guest"/>
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/room_btn"
+            android:background="#edecec"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="room"
+            android:text="Room \n 1"/>
+
+        <Button
+            android:id="@+id/adult_btn"
+            android:onClick="adult"
+            android:background="#edecec"
+            android:layout_marginLeft="-15dp"
+            android:layout_marginRight="-15dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Adult \n 1"/>
+        <Button
+            android:onClick="children"
+            android:background="#edecec"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Children \n 1"/>
+    </LinearLayout>
+
+</LinearLayout>

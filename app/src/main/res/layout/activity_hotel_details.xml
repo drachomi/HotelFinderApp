@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.richard.abigayle.hotelfinder.Activities.HotelDetailsActivity">
+
+    <ScrollView
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/hotelroom" />
+
+            <RatingBar
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="2.5"
+                android:stepSize="0.1"
+                android:theme="@style/RatingBar" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sheraton Hotel Lagos"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21, Maryland Crescent Mende Lagos"
+                        android:textColor="#000"
+                        android:textStyle="italic" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:scaleType="fitCenter"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/markar" />
+            </RelativeLayout>
+            <HorizontalScrollView
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/ac_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ac"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/gym_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/gym"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/roomservice_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/roomserve"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/swim_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/swim"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/wifi_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/wifi"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/wi_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/wifi"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/swm_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/swim"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/c_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ac"/>
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:id="@+id/gm_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/gym"/>
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hotel Description"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_marginStart="10dp"/>
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This hotel is located in the serene environment of lagos.It it close to the ancient city of rivadale which is about the size of nouth orlean. we are super glad to share this spot with you.Do brig a friend"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rooms"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_marginStart="10dp"/>
+            <HorizontalScrollView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_margin="5dp"
+                        android:layout_width="250dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/pic1"
+                        android:scaleType="fitCenter"/>
+
+                    <ImageView
+                        android:layout_margin="5dp"
+                        android:id="@+id/imageView"
+                        android:layout_width="250dp"
+                        android:layout_height="150dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pics2" />
+
+                    <ImageView
+                        android:layout_margin="5dp"
+                        android:layout_width="250dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/pics3"
+                        android:scaleType="fitCenter"/>
+                    <ImageView
+                        android:layout_margin="5dp"
+                        android:layout_width="250dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/hotelroom"
+                        android:scaleType="fitCenter"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reviews"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_marginStart="10dp"/>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:textStyle="italic"
+                            android:textAlignment="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="This is the place to be. It is located on the oriental hilton \n side of the country and the staff are very nice nice also \n come to think aout the nice meal that they sarve."/>
+                        <TextView
+                            android:textAlignment="center"
+                            android:layout_marginStart="100dp"
+                            android:layout_marginEnd="30dp"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Imoh Richard, User"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:textStyle="italic"
+                            android:textAlignment="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="This is the place to be. It is located on the oriental hilton \n side of the country and the staff are very nice nice also \n come to think aout the nice meal that they sarve."/>
+                        <TextView
+                            android:layout_marginStart="100dp"
+                            android:layout_marginEnd="30dp"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Imoh Richard, User"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:textStyle="italic"
+                            android:textAlignment="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="This is the place to be. It is located on the oriental hilton \n side of the country and the staff are very nice nice also \n come to think aout the nice meal that they sarve."/>
+                        <TextView
+                            android:layout_marginStart="100dp"
+                            android:layout_marginEnd="30dp"
+                            android:textAlignment="center"
+                            android:textColor="#000"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Imoh Richard, User"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
+            </HorizontalScrollView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+
+
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15sp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="#58a5f0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Book Room"
+        android:textColor="#ffffff" />
+
+
+
+
+
+</RelativeLayout>
