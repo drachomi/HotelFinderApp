@@ -3,6 +3,7 @@ package com.richard.abigayle.hotelfinder.Activities;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.preference.DialogPreference;
@@ -38,8 +39,6 @@ public class SearchActivity extends AppCompatActivity  {
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-
-
         autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -55,6 +54,13 @@ public class SearchActivity extends AppCompatActivity  {
 
             }
         });
+
+    }
+    public void searchClick(View view){
+        Intent intent = new Intent(this,HotelDetailsActivity.class);
+
+        startActivity(intent);
+
     }
 
     @SuppressWarnings("deprecation")
@@ -74,6 +80,7 @@ public class SearchActivity extends AppCompatActivity  {
     public void children(View view){
         showDialog(5);
     }
+
 
 
 

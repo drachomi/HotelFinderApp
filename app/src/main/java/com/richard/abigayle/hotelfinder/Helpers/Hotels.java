@@ -1,7 +1,13 @@
 package com.richard.abigayle.hotelfinder.Helpers;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.graphics.Bitmap;
+import android.net.Uri;
+
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Jaruspace on 2/16/2018.
  */
@@ -9,30 +15,32 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "hotel")
 public class Hotels {
-        @PrimaryKey(autoGenerate = true)
-        private int id;
-        private  String  placeId;
-        private  String placeRating;
-        private  String placeName;
-        private  String placeAd;
-        private  String reviewerName;
-        private  String reviewerDp;
-        private  String imageId1;
-        private  String imageId2;
-        private  String imageId3;
-        private  String imageId4;
+        @PrimaryKey
+        public int id;
+        public  String  placeId;
+        public  String placeName;
+        public  String telephone;
+        public  String placeAd;
+        public String website;
+        public int priceLvl;
+        public  float placeRating;
+        public String latLng;
+        public String imageId1;
+        public  String imageId2;
+        public  String imageId3;
 
-    public Hotels(int id, String placeId, String placeRating, String placeName, String placeAd, String reviewerName, String reviewerDp, String imageId1, String imageId2, String imageId3, String imageId4) {
-        this.id = id;
-        this.placeId = placeId;
-        this.placeRating = placeRating;
-        this.placeName = placeName;
-        this.placeAd = placeAd;
-        this.reviewerName = reviewerName;
-        this.reviewerDp = reviewerDp;
-        this.imageId1 = imageId1;
-        this.imageId2 = imageId2;
-        this.imageId3 = imageId3;
-        this.imageId4 = imageId4;
-    }
+        public Hotels(int id, String placeId, String placeName, String telephone, String placeAd, String website, int priceLvl, float placeRating, String latLng, String imageId1, String imageId2, String imageId3) {
+                this.id = id;
+                this.placeId = placeId;
+                this.placeName = placeName;
+                this.telephone = telephone;
+                this.placeAd = placeAd;
+                this.website = website;
+                this.priceLvl = priceLvl;
+                this.placeRating = placeRating;
+                this.latLng = latLng;
+                this.imageId1 = imageId1;
+                this.imageId2 = imageId2;
+                this.imageId3 = imageId3;
+        }
 }
