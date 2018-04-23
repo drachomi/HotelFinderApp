@@ -115,4 +115,14 @@
             android:text="Children \n 1"/>
     </LinearLayout>
 
+    <Button
+        android:onClick="searchClick"
+        android:background="#edecec"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search "
+        android:id="@+id/search_btn"/>
+
+
 </LinearLayout>
