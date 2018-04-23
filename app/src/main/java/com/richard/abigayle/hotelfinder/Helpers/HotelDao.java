@@ -18,7 +18,7 @@ import java.util.List;
 public interface HotelDao {
 
     @Query("SELECT * FROM hotel")
-    List<Hotels> getAll();
+    LiveData<List<Hotels>> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Hotels...hotel);
@@ -37,6 +37,9 @@ public interface HotelDao {
 
     @Query("UPDATE hotel SET imageId3 = :img3 WHERE placeId=:id")
     void insertImage3 (String id,String img3);
+
+    @Query("SELECT * FROM hotel WHERE id = :id")
+    Hotels oneHotel(int id);
 
 
 

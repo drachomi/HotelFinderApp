@@ -1,6 +1,7 @@
 package com.richard.abigayle.hotelfinder.Helpers;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -66,10 +67,10 @@ public class HotelRepository {
     GeoDataClient mGoogleApiClient;
 
 
-    public MutableLiveData<Hotels> mHotels;
+    private LiveData<List<Hotels>> mHotels;
     private static final Object LOCK = new Object();
     private static HotelRepository sInstance;
-    private final HotelDao mHotelDao;
+    private  HotelDao mHotelDao;
     private Context context;
     private boolean isFinished = false;
     String root = Environment.getExternalStorageDirectory().toString();
@@ -80,31 +81,18 @@ public class HotelRepository {
     private boolean mInitialized = false;
 
 
-    public HotelRepository(HotelDao hotelDao, Context context) {
-        this.mHotelDao = hotelDao;
-        this.context = context;
+    public HotelRepository(Application application) {
+        HotelDatabase hotelDb = HotelDatabase.getInstance(application);
 
-
+        mHotelDao = hotelDb.hotelDao();
+        mHotels = mHotelDao.getAll();
+        context = application;
+    }
+    public LiveData<List<Hotels>>getAllHotels(){
+        return mHotels;
     }
 
-    public synchronized static HotelRepository getsInstance(HotelDao hotelDao, Context context) {
-        Log.d(LOG_TAG, "Making Repository");
-        if (sInstance == null) {
-            synchronized (LOCK) {
-                sInstance = new HotelRepository(hotelDao, context);
-                Log.d(LOG_TAG, "Finished Repository");
-            }
-        }
-        return sInstance;
-    }
 
-    public synchronized void initializeData() {
-
-        // Only perform initialization once per app lifetime. If initialization has already been
-        // performed, we have nothing to do in this method.
-        if (mInitialized) return;
-        mInitialized = true;
-    }
 
     private void deleteOldData() {
 
@@ -242,7 +230,12 @@ public class HotelRepository {
                         PlacePhotoResponse photo = task1.getResult();
 
                         Bitmap image1 = photo.getBitmap();
-                        imagestring.add(saveToInternalStorage(image1, place_id, a));
+
+                        if(image1!=null){
+                            imagestring.add(saveToInternalStorage(image1, place_id, a));
+
+                        }
+
 
                     });
                 }
@@ -254,9 +247,12 @@ public class HotelRepository {
     }
 
     private String saveToInternalStorage(Bitmap bitmap, String place_id, int a) {
-        File mypath = new File(myDir,place_id);
+        File mypath = new File(root + "/hotel_images",place_id);
+        mypath.mkdir();
+        String fname = a + ".jpg";
 
-        File imagepath = new File(mypath,  a + ".jpg");
+        File imagepath = new File(root + "/hotel_images/" + place_id+fname );
+
         try {
            FileOutputStream fos = new FileOutputStream(imagepath);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
@@ -267,6 +263,7 @@ public class HotelRepository {
             }
 
         Log.d("gal", mypath.getAbsolutePath());
+        Log.d("confused",imagepath.getAbsolutePath());
         insertImageToDb(place_id,imagepath.getAbsolutePath(),a);
 
         return imagepath.getAbsolutePath();

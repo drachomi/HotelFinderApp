@@ -1,6 +1,7 @@
 package com.richard.abigayle.hotelfinder.Activities;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -33,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
         else {
             HotelDatabase hotelDatabase = HotelDatabase.getInstance(this);
 
-            HotelRepository hotelRepository = new HotelRepository(hotelDatabase.hotelDao(),getApplicationContext());
+            HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
 
             hotelRepository.scanFetch();
 
 
-            Intent i = new Intent(MainActivity.this, SearchActivity.class);
+            Intent i = new Intent(MainActivity.this, HotelDetailsActivity.class);
+
             startActivity(i);
         }
     }
@@ -50,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
                 if(grantResults.length > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                     HotelDatabase hotelDatabase = HotelDatabase.getInstance(this);
 
-                    HotelRepository hotelRepository = new HotelRepository(hotelDatabase.hotelDao(),getApplicationContext());
+                    HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
 
                     hotelRepository.scanFetch();
 
 
-                    Intent i = new Intent(MainActivity.this, SearchActivity.class);
+                    Intent i = new Intent(MainActivity.this, HotelDetailsActivity.class);
                     startActivity(i);
 
                 }
