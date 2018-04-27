@@ -1,5 +1,6 @@
 package com.richard.abigayle.hotelfinder.Helpers;
 
+import com.richard.abigayle.hotelfinder.POJO.DistanceBetween;
 import com.richard.abigayle.hotelfinder.POJO.MainResponse;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public interface HotelNetworkClient {
    Call<MainResponse> hotelList(
            @QueryMap Map<String,String> params
            );
-
+    @GET("maps/api/distancematrix/json")
+    Call<DistanceBetween>distance(
+            @QueryMap Map<String,String>parame
+    );
 }
 

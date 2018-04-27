@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -35,7 +36,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.richard.abigayle.hotelfinder.AppExecutors;
+import com.richard.abigayle.hotelfinder.POJO.DistanceBetween;
 import com.richard.abigayle.hotelfinder.POJO.MainResponse;
+import com.richard.abigayle.hotelfinder.R;
 
 import org.json.JSONException;
 
@@ -94,24 +97,23 @@ public class HotelRepository {
 
 
 
-    private void deleteOldData() {
 
-    }
 
     private boolean isFetchedNeeded() {
         return true;
     }
 
+    //TODO Create method that scans with nextpage tokener
+    public void scanFetch(String location) {
+        deleteOldData();
 
-    public void scanFetch() {
-        String location = "-33.8670522,151.1957362";
         String key = "AIzaSyBWKQHS39-SYUNxEEAry1FxrMET2NwhqxE";
 
         Map<String, String> param = new HashMap<>();
         param.put("location", location);
         param.put("key", key);
-        param.put("type", "restaurant");
-        param.put("radius", "500");
+        param.put("type", "lodging");
+        param.put("radius", "20000");
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -185,8 +187,9 @@ public class HotelRepository {
 
                     getPhoto(place_id);
 
+
                     Log.d("eluwa", place.getName().toString());
-                    Hotels hotels = new Hotels(i,place_id,place_name,telephone,address,website,pricelevel,rating,latlong,null,null,null);
+                    Hotels hotels = new Hotels(i,place_id,place_name,telephone,address,website,pricelevel,rating,latlong,null,null,null,null,null);
 
                     insertToDb(hotels);
 
@@ -220,27 +223,30 @@ public class HotelRepository {
                 List<String> imagestring = new ArrayList<>();
 
 
-                for (int i = 0; i < 3; i++) {
-                    PlacePhotoMetadata placePhotoMetadata = photoMetadata.get(i);
-                    final int a = i;
+
+                        for (int i = 0; i < 3; i++) {
+
+                            final int a = i;
+                            final int b = photoMetadata.getCount();
+                            if(b>a){
+                                PlacePhotoMetadata placePhotoMetadata = photoMetadata.get(i);
+                                Task<PlacePhotoResponse> responseTask = mGoogleApiClient.getPhoto(placePhotoMetadata);
+                                responseTask.addOnCompleteListener(task1 -> {
+                                    PlacePhotoResponse photo = task1.getResult();
+                                    Bitmap image1 = (b<a)? BitmapFactory.decodeResource(context.getResources(), R.drawable.hotelroom):photo.getBitmap();
+
+                                    imagestring.add(saveToInternalStorage(image1, place_id, a));
 
 
-                    Task<PlacePhotoResponse> responseTask = mGoogleApiClient.getPhoto(placePhotoMetadata);
-                    responseTask.addOnCompleteListener(task1 -> {
-                        PlacePhotoResponse photo = task1.getResult();
-
-                        Bitmap image1 = photo.getBitmap();
-
-                        if(image1!=null){
-                            imagestring.add(saveToInternalStorage(image1, place_id, a));
+                                });
+                            }
+                            else {
+                                Bitmap image1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.hotelroom);
+                                imagestring.add(saveToInternalStorage(image1,place_id,a));
+                            }
 
                         }
-
-
-                    });
-                }
-
-            }
+                    }
         });
 
 
@@ -270,8 +276,40 @@ public class HotelRepository {
 
         }
 
+    private void getDistance(String origins,String destinations,String place_id){
+        String key = "AIzaSyAvXgkHdw8StiKTkbiI2sMip1D_Ru37ZTE";
+        Map<String, String> param = new HashMap<>();
+        param.put("origins", origins);
+        param.put("destinations", destinations);
+        param.put("key", key);
 
 
+        Retrofit.Builder retrofitBuildr = new Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = retrofitBuildr.build();
+
+        HotelNetworkClient networkClient = retrofit.create(HotelNetworkClient.class);
+        Call<DistanceBetween> call = networkClient.distance(param);
+        call.enqueue(new Callback<DistanceBetween>() {
+            @Override
+            public void onResponse(Call<DistanceBetween> call, Response<DistanceBetween> response) {
+                String distance,duration;
+
+                distance = response.body().getResults().get(0).getElement().get(0).getDistance().getText();
+                duration = response.body().getResults().get(0).getElement().get(0).getDuration().getText();
+                Log.d("distance",distance+duration);
+                updateDistance(place_id,distance,duration);
+
+            }
+
+            @Override
+            public void onFailure(Call<DistanceBetween> call, Throwable t) {
+
+            }
+        });
+
+    }
 
     private void insertToDb(Hotels hotels){
         new AsyncTask<Void,Void,Void>(){
@@ -302,9 +340,29 @@ public class HotelRepository {
             }
         }.execute();
     }
+    void updateDistance(String place_id,String distance,String duration){
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+                mHotelDao.insertDistance(place_id,distance,duration);
+
+                return null;
+            }
+        }.execute();
+    }
+    private void deleteOldData() {
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+                mHotelDao.deleteAll();
+
+                return null;
+            }
+        }.execute();
 
 
 
+    }
 
 
 

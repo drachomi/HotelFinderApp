@@ -38,9 +38,14 @@ public interface HotelDao {
     @Query("UPDATE hotel SET imageId3 = :img3 WHERE placeId=:id")
     void insertImage3 (String id,String img3);
 
+    @Query("UPDATE hotel SET distance = :distance, duration = :duration WHERE placeId=:id")
+    void insertDistance (String id,String duration,String distance);
+
     @Query("SELECT * FROM hotel WHERE id = :id")
     Hotels oneHotel(int id);
 
+    @Query("DELETE  FROM hotel")
+    void deleteAll();
 
 
 }

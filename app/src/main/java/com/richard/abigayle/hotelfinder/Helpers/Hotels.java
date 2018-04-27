@@ -28,8 +28,10 @@ public class Hotels {
         public String imageId1;
         public  String imageId2;
         public  String imageId3;
+        public String distance;
+        public String duration;
 
-        public Hotels(int id, String placeId, String placeName, String telephone, String placeAd, String website, int priceLvl, float placeRating, String latLng, String imageId1, String imageId2, String imageId3) {
+        public Hotels(int id, String placeId, String placeName, String telephone, String placeAd, String website, int priceLvl, float placeRating, String latLng, String imageId1, String imageId2, String imageId3,String distance,String duration) {
                 this.id = id;
                 this.placeId = placeId;
                 this.placeName = placeName;
@@ -42,5 +44,7 @@ public class Hotels {
                 this.imageId1 = imageId1;
                 this.imageId2 = imageId2;
                 this.imageId3 = imageId3;
+                this.distance = distance;
+                this.duration = duration;
         }
 }

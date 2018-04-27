@@ -1,5 +1,6 @@
 package com.richard.abigayle.hotelfinder.Activities;
 
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -19,6 +20,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.richard.abigayle.hotelfinder.Helpers.HotelRepository;
 import com.richard.abigayle.hotelfinder.R;
 
 public class SearchActivity extends AppCompatActivity  {
@@ -26,6 +28,7 @@ public class SearchActivity extends AppCompatActivity  {
     private DatePicker datePicker;
     private Calendar calendar;
     private int year,month,day;
+    private String location;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -44,6 +47,7 @@ public class SearchActivity extends AppCompatActivity  {
             @Override
             public void onPlaceSelected(Place place) {
                 Toast.makeText(SearchActivity.this,"Selected Place is "+ place.getLatLng(),Toast.LENGTH_LONG).show();
+                location = place.getLatLng().toString();
 
             }
 
@@ -57,9 +61,18 @@ public class SearchActivity extends AppCompatActivity  {
 
     }
     public void searchClick(View view){
-        Intent intent = new Intent(this,HotelDetailsActivity.class);
 
-        startActivity(intent);
+        if(location.equals("")){
+
+            HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
+            hotelRepository.scanFetch(location);
+            Intent intent = new Intent(this,SplashScreen.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(SearchActivity.this,"Please pick your location",Toast.LENGTH_LONG).show();
+        }
+
 
     }
 

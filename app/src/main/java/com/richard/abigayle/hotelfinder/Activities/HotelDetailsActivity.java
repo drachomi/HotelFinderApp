@@ -50,5 +50,6 @@ public class HotelDetailsActivity extends LifecycleActivity implements OnMapRead
         LatLng sydney = new LatLng(-33.852, 151.211);
         googleMap.addMarker(new MarkerOptions().position(sydney).title("Sydney in the Map"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 }
