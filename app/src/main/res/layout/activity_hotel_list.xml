@@ -7,15 +7,35 @@
     android:orientation="vertical"
     tools:context="com.richard.abigayle.hotelfinder.Activities.HotelList">
 
-    <TextView
+    <FrameLayout
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="List page"/>
+        android:layout_height="100dp">
+        <ImageView
+            android:src="@drawable/york"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            android:textStyle="italic"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List page"/>
+
+    </FrameLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
+
+
 
 </LinearLayout>

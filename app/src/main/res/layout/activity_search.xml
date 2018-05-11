@@ -8,121 +8,230 @@
     android:orientation="vertical"
 
     tools:context="com.richard.abigayle.hotelfinder.Activities.SearchActivity">
-
-
-
-    <TextView
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Search for your location"/>
-    <android.support.v7.widget.CardView
-        android:background="#c6c4c4"
-        android:layout_margin="10dp"
-        android:elevation="5dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <fragment
-            android:id="@+id/place_autocomplete_fragment"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Search for your location"
+            android:textSize="20sp" />
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-            />
+            android:layout_margin="10dp"
+            android:background="#c6c4c4"
+            android:elevation="5dp">
 
-    </android.support.v7.widget.CardView>
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Check In"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
 
-    <TextView
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Check In"/>
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:background="#edecec"
+                android:onClick="CheckIn"
+                android:text="Check In" />
 
-    <LinearLayout
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:background="#edecec"
+                android:onClick="CheckOut"
+                android:text="Check Out" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Number Of Guest"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/room_btn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="#edecec"
+                android:onClick="room"
+                android:text="Room \n 1" />
+
+            <Button
+                android:id="@+id/adult_btn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-15dp"
+                android:layout_marginRight="-15dp"
+                android:background="#edecec"
+                android:onClick="adult"
+                android:text="Adult \n 1" />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="#edecec"
+                android:onClick="children"
+                android:text="Children \n 1" />
+        </LinearLayout>
 
         <Button
-            android:onClick="CheckIn"
-            android:background="#edecec"
-            android:layout_marginEnd="30dp"
-            android:layout_width="150dp"
+            android:id="@+id/search_htl"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Check In"/>
-
-
-
-        <Button
-            android:onClick="CheckOut"
+            android:layout_margin="10dp"
             android:background="#edecec"
-            android:layout_marginStart="30dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Check Out"/>
+            android:onClick="searchClick"
+            android:text="Search " />
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Amazing Hotels"/>
 
-    </LinearLayout>
-
-    <TextView
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Number Of Guest"/>
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/room_btn"
-            android:background="#edecec"
-            android:layout_width="150dp"
+        <android.support.v7.widget.CardView
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="room"
-            android:text="Room \n 1"/>
+            app:cardElevation="5dp">
+            <ImageView
+                android:onClick="featured"
+                android:id="@+id/paris"
+                android:scaleType="centerCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/paris" />
+            <TextView
+                android:layout_gravity="center"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paris"
+                android:textColor="#ffffff"/>
 
-        <Button
-            android:id="@+id/adult_btn"
-            android:onClick="adult"
-            android:background="#edecec"
-            android:layout_marginLeft="-15dp"
-            android:layout_marginRight="-15dp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Adult \n 1"/>
-        <Button
-            android:onClick="children"
-            android:background="#edecec"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Children \n 1"/>
-    </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-    <Button
-        android:onClick="searchClick"
-        android:background="#edecec"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Search "
-        android:id="@+id/search_btn"/>
+        <android.support.v7.widget.CardView
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="5dp">
+
+            <ImageView
+                android:onClick="featured"
+                android:id="@+id/lagos"
+                android:scaleType="centerCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/lagos" />
+            <TextView
+                android:layout_gravity="center"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lagos"
+                android:textColor="#ffffff"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="5dp">
+
+            <ImageView
+                android:onClick="featured"
+                android:id="@+id/amsterdam"
+                android:scaleType="centerCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/amsterdam" />
+            <TextView
+                android:layout_gravity="center"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amsterdam"
+                android:textColor="#ffffff"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="5dp">
+
+            <ImageView
+                android:id="@+id/york"
+                android:scaleType="centerCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/york" />
+            <TextView
+                android:layout_gravity="center"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New York"
+                android:textColor="#ffffff"/>
+
+        </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
 
 
 </LinearLayout>
