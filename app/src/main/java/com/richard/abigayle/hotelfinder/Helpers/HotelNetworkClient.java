@@ -17,13 +17,16 @@ import retrofit2.http.QueryMap;
 
 public interface HotelNetworkClient {
 
-    @GET("maps/api/place/nearbysearch/json")
-   Call<MainResponse> hotelList(
+    @GET("/maps/api/place/nearbysearch/json")
+   Call<MainResponse>hotelList(
            @QueryMap Map<String,String> params
            );
     @GET("maps/api/distancematrix/json")
     Call<DistanceBetween>distance(
             @QueryMap Map<String,String>parame
     );
+
+    @GET("maps/api/place/details/json")
+    Call<MainResponse>nextPage(@Query("pagetoken") String tokener);
 }
 

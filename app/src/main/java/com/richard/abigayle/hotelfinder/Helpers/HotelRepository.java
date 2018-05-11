@@ -105,15 +105,21 @@ public class HotelRepository {
 
     //TODO Create method that scans with nextpage tokener
     public void scanFetch(String location) {
-        deleteOldData();
+//        deleteOldData();
 
         String key = "AIzaSyBWKQHS39-SYUNxEEAry1FxrMET2NwhqxE";
-
+        Log.d("location","Got to Repository scanFetchMethod");
         Map<String, String> param = new HashMap<>();
         param.put("location", location);
         param.put("key", key);
         param.put("type", "lodging");
+        Log.d("location"," added param  ");
         param.put("radius", "20000");
+
+        Log.d("location","added to map ");
+        Log.d("location","location is " + location);
+
+
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -121,30 +127,52 @@ public class HotelRepository {
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
+        Log.d("location","Finished building retrofit builder ");
 
         HotelNetworkClient networkClient = retrofit.create(HotelNetworkClient.class);
+        Log.d("location","finished creating HotelClient");
         Call<MainResponse> call = networkClient.hotelList(param);
+            Log.d("location","Calling client ");
+        Log.d("location",location);
 
 
         call.enqueue(new Callback<MainResponse>() {
             @Override
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
-
-                for (int i = 0; i < response.body().getResults().size(); i++) {
-                    String place_id = response.body().getResults().get(i).getPlaceId();
-                    Log.d("ada", place_id);
-                    Log.d("dir", "making dir");
-
-                    if(!myDir.exists()){
-                        myDir.mkdirs();
-                        Log.d("dir","finished making : "+ myDir.getAbsolutePath());
+                Log.d("location","Got response from retrofit");
+                Log.d("location",response.body().toString());
+                String token = response.body().getNext_page_token();
+                if(response.isSuccessful()){
+                    Log.d("location","response successful");
+                    if(response.body()==null){
+                        Log.d("location","response is null");
                     }
-
-                    getHotelDetails(place_id, i);
-
-
-
+                    else {
+                        Log.d("location","response is not null");
+                    }
                 }
+                if(response.body()==null){
+                    Log.d("location","response is null");
+                }
+                else {
+                    for (int i = 0; i < response.body().getResults().size(); i++) {
+                        String place_id = response.body().getResults().get(i).getPlaceId();
+                        Log.d("ada", place_id);
+                        Log.d("dir", "making dir");
+                        if(i==18){
+                            nextPage(token);
+                        }
+
+                        if(!myDir.exists()){
+                            myDir.mkdirs();
+                            Log.d("dir","finished making : "+ myDir.getAbsolutePath());
+                        }
+
+                        getHotelDetails(place_id, i);
+                    }
+                }
+
+
             }
 
             @Override
@@ -154,8 +182,64 @@ public class HotelRepository {
         });
     }
 
+    public void nextPage(String tokener){
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/")
+                .addConverterFactory( GsonConverterFactory.create());
+        Retrofit retrofit = retrofitBuilder.build();
+
+        HotelNetworkClient networkClient = retrofit.create(HotelNetworkClient.class);
+
+        Call<MainResponse> call = networkClient.nextPage(tokener);
+
+        call.enqueue(new Callback<MainResponse>() {
+            @Override
+            public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
+                Log.d("location","Got response from retrofit");
+                Log.d("location",response.body().toString());
+                if(response.isSuccessful()){
+                    Log.d("location","response successful");
+                    if(response.body()==null){
+                        Log.d("location","response is null");
+                    }
+                    else {
+                        Log.d("location","response is not null");
+                    }
+                }
+                if(response.body()==null){
+                    Log.d("location","response is null");
+                }
+                else {
+                    for (int i = 0; i < response.body().getResults().size(); i++) {
+                        String place_id = response.body().getResults().get(i).getPlaceId();
+                        Log.d("ada", place_id);
+                        Log.d("dir", "making dir");
+
+                        if(!myDir.exists()){
+                            myDir.mkdirs();
+                            Log.d("dir","finished making : "+ myDir.getAbsolutePath());
+                        }
+
+                        getHotelDetails(place_id, 19+i);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MainResponse> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
 
     private void getHotelDetails(String id, int i) {
+        //TODO Scrap this details task use retrofit to get the hotel details.
+
+
 
 
         mGoogleApiClient = Places.getGeoDataClient(context, null);
@@ -166,6 +250,7 @@ public class HotelRepository {
                 if (task.isSuccessful()) {
                     PlaceBufferResponse bufferResponse = task.getResult();
                     Place place = bufferResponse.get(0);
+
 
                     String place_id = place.getId();
 
@@ -212,6 +297,7 @@ public class HotelRepository {
     public void getPhoto(String place_id ) {
         mGoogleApiClient = Places.getGeoDataClient(context, null);
         final Task<PlacePhotoMetadataResponse> photoMetadataResponse = mGoogleApiClient.getPlacePhotos(place_id);
+        getDistance("place_id:ChIJQbZ_dzGSOxARugpHaf3JWN0",place_id,place_id);
 
 
         photoMetadataResponse.addOnCompleteListener(task -> {
@@ -280,7 +366,7 @@ public class HotelRepository {
         String key = "AIzaSyAvXgkHdw8StiKTkbiI2sMip1D_Ru37ZTE";
         Map<String, String> param = new HashMap<>();
         param.put("origins", origins);
-        param.put("destinations", destinations);
+        param.put("destinations", "place_id:" + destinations);
         param.put("key", key);
 
 
@@ -294,11 +380,14 @@ public class HotelRepository {
         call.enqueue(new Callback<DistanceBetween>() {
             @Override
             public void onResponse(Call<DistanceBetween> call, Response<DistanceBetween> response) {
-                String distance,duration;
+                String distance="Some km",duration = "Some km";
+                if(response.body().getRows().get(0).getElement().get(0).getStatus().equals("OK")){
+                    distance = response.body().getRows().get(0).getElement().get(0).getDistance().getText();
+                    duration = response.body().getRows().get(0).getElement().get(0).getDuration().getText();
+                }
 
-                distance = response.body().getResults().get(0).getElement().get(0).getDistance().getText();
-                duration = response.body().getResults().get(0).getElement().get(0).getDuration().getText();
-                Log.d("distance",distance+duration);
+
+
                 updateDistance(place_id,distance,duration);
 
             }
@@ -345,6 +434,7 @@ public class HotelRepository {
             @Override
             protected Void doInBackground(Void... voids) {
                 mHotelDao.insertDistance(place_id,distance,duration);
+                Log.d("distace",place_id +" distance" + distance  +" duration" + duration);
 
                 return null;
             }

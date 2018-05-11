@@ -1,6 +1,7 @@
 package com.richard.abigayle.hotelfinder.Activities;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.richard.abigayle.hotelfinder.Helpers.HotelRepository;
 import com.richard.abigayle.hotelfinder.R;
 
 public class SplashScreen extends AppCompatActivity {
@@ -23,6 +25,13 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         getWriteStorage();
+
+        Bundle bundle = getIntent().getExtras();
+        String location = bundle.getString("location");
+        HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
+        Toast.makeText(this,"location is "+location,Toast.LENGTH_SHORT).show();
+        Log.d("location",location);
+        hotelRepository.scanFetch(location);
 
         new Handler().postDelayed(new Runnable() {
             @Override

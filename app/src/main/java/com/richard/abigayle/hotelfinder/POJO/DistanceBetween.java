@@ -22,7 +22,7 @@ public class DistanceBetween {
 
     @SerializedName("rows")
     @Expose
-    private List<Rows> results = new ArrayList();
+    private List<Rows> rows = new ArrayList();
 
     @SerializedName("status")
     @Expose
@@ -43,12 +43,12 @@ public class DistanceBetween {
         this.origin = origin;
     }
 
-    public List<Rows> getResults() {
-        return results;
+    public List<Rows> getRows() {
+        return rows;
     }
 
-    public void setResults(List<Rows> results) {
-        this.results = results;
+    public void setRows(List<Rows> results) {
+        this.rows = results;
     }
 
     public String getStatus() {

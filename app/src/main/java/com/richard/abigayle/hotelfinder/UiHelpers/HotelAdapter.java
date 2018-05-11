@@ -1,6 +1,7 @@
 package com.richard.abigayle.hotelfinder.UiHelpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.richard.abigayle.hotelfinder.Helpers.HotelDao;
+import com.richard.abigayle.hotelfinder.Activities.DetailsActivity.HotelDetailsActivity;
 import com.richard.abigayle.hotelfinder.Helpers.Hotels;
 import com.richard.abigayle.hotelfinder.R;
 
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder> {
      class myViewHolder extends RecyclerView.ViewHolder{
-        private TextView name,address,pricePerNight;
+        private TextView name,address,km_away;
         RatingBar ratingBar;
         ImageView imageView;
 
@@ -35,9 +36,17 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
             super(itemView);
             name = itemView.findViewById(R.id.name);
             address = itemView.findViewById(R.id.address);
-            pricePerNight = itemView.findViewById(R.id.price);
+            km_away = itemView.findViewById(R.id.km_away);
             imageView = itemView.findViewById(R.id.display_image);
             ratingBar = itemView.findViewById(R.id.rating);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(), HotelDetailsActivity.class);
+
+                }
+            });
         }
     }
     private List<Hotels>mHotels;
@@ -85,7 +94,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
             Log.d("ari","Got position");
             holder.name.setText(hotel.placeName.toString());
             holder.address.setText(hotel.placeAd.toString());
-            holder.pricePerNight.setText(String.valueOf(hotel.priceLvl * 300));
+            holder.km_away.setText(String.valueOf(hotel.distance));
             holder.imageView.setImageBitmap(getImage(hotel.imageId1));
             holder.ratingBar.setRating(hotel.placeRating);
 
@@ -93,9 +102,10 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
         else {
             holder.name.setText("Hotel Name");
             holder.address.setText("Address incoming");
-            holder.pricePerNight.setText("35000");
+            holder.km_away.setText("35000");
             holder.imageView.setImageBitmap(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom));
             holder.ratingBar.setRating(3);
+
         }
 
 

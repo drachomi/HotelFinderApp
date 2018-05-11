@@ -1,13 +1,11 @@
 package com.richard.abigayle.hotelfinder.Activities;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +14,8 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.richard.abigayle.hotelfinder.Helpers.HotelDatabase;
-import com.richard.abigayle.hotelfinder.Helpers.HotelRepository;
+import com.richard.abigayle.hotelfinder.Activities.DetailsActivity.HotelDetailsActivity;
 import com.richard.abigayle.hotelfinder.R;
-
-import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,17 +52,17 @@ public class MainActivity extends AppCompatActivity {
     void getLocation() {
         Log.d("location", "Entered Get location");
 
+
         Log.d("location", "getting to mLOcationClient.getLatsLocation");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-
-            return;
         }
+
         mLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        Log.d("location",location.toString());
+                      //  Log.d("location",location.toString());
                         if (location != null) {
 
                             String mlocation = location.getLatitude() + "," + location.getLongitude();
@@ -78,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("location", "finished scan");
 
 
-                            Intent i = new Intent(MainActivity.this, SearchActivity.class);
-                            startActivity(i);
+//                            Intent i = new Intent(MainActivity.this, HotelDetailsActivity.class);
+//                            startActivity(i);
 
                         }
                         if (location == null) {
@@ -88,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+        Intent i = new Intent(MainActivity.this, SearchActivity.class);
+        startActivity(i);
         }
+
 
     }
 
