@@ -26,6 +26,9 @@ public interface HotelDao {
     @Delete
     void  delete(Hotels...hotels);
 
+    @Query("DELETE  FROM hotel ")
+    void deleteAll();
+
     @Query("SELECT * FROM hotel WHERE id = :hotelId")
     LiveData<Hotels> singleHotel(int hotelId);
 
@@ -41,11 +44,10 @@ public interface HotelDao {
     @Query("UPDATE hotel SET distance = :distance, duration = :duration WHERE placeId=:id")
     void insertDistance (String id,String duration,String distance);
 
-    @Query("SELECT * FROM hotel WHERE id = :id")
-    Hotels oneHotel(int id);
+    @Query("SELECT * FROM hotel WHERE id = :hotel_id")
+    Hotels oneHotel(int hotel_id);
 
-    @Query("DELETE  FROM hotel")
-    void deleteAll();
+
 
 
 }

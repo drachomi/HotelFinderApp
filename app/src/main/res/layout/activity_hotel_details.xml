@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context="com.richard.abigayle.hotelfinder.Activities.DetailsActivity.HotelDetailsActivity">
     <!--<android.support.v7.widget.Toolbar-->
@@ -13,14 +13,16 @@
         <!--android:elevation="4dp" />-->
 
     <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <com.synnapps.carouselview.CarouselView
             android:id="@+id/carouselView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="250dp"
             app:fillColor="#FFFFFFFF"
+
             app:pageColor="#00000000"
             app:radius="6dp"
             app:slideInterval="3000"
@@ -35,7 +37,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:textColor="#000000"
+                android:id="@+id/details_name"
+                android:textColor="#FFFFFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -44,7 +47,7 @@
                 android:textStyle="bold" />
 
             <RatingBar
-
+                android:id="@+id/details_rating"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,6 +65,7 @@
 
 
     <TabHost
+        android:layout_below="@+id/frame"
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -84,10 +88,8 @@
                 android:layout_height="wrap_content">
 
 
-
-
                 <LinearLayout
-                    android:id="@+id/secondtab"
+                    android:id="@+id/overview_tabs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -172,7 +174,7 @@
                             android:layout_height="50dp"
                             android:layout_margin="7dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/address" />
+                            android:src="@drawable/home_purple" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -204,7 +206,7 @@
                             android:layout_height="50dp"
                             android:layout_margin="7dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/website" />
+                            android:src="@drawable/website_purple" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -236,7 +238,7 @@
                             android:layout_height="50dp"
                             android:layout_margin="7dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/phone" />
+                            android:src="@drawable/phone_purple" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -260,13 +262,15 @@
 
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/firsttab"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/feature_tabs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -278,10 +282,11 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/iswifi"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/wifi" />
+                                android:src="@drawable/wifi_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -298,10 +303,11 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/isswim"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/swim" />
+                                android:src="@drawable/swimming_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -318,10 +324,11 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/islaundry"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/ac" />
+                                android:src="@drawable/laundry_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -338,10 +345,11 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/isroomserve"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/roomserve" />
+                                android:src="@drawable/room_service_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -365,10 +373,11 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/isgym"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/gym" />
+                                android:src="@drawable/gym_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -385,10 +394,11 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/isdining"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/roomserve" />
+                                android:src="@drawable/restaurant_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -405,16 +415,17 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/isonlinebook"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/wifi" />
+                                android:src="@drawable/website_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Wifi" />
+                                android:text="Bok Online" />
 
                         </LinearLayout>
 
@@ -425,16 +436,17 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/islandmark"
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/swim" />
+                                android:src="@drawable/marker_purple" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Swimming" />
+                                android:text="Land Mark" />
 
                         </LinearLayout>
 
@@ -442,10 +454,8 @@
 
 
                 </LinearLayout>
-
-
                 <LinearLayout
-                    android:id="@+id/thirdtab"
+                    android:id="@+id/mapstab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -464,10 +474,13 @@
     </TabHost>
 
     <Button
+        android:onClick="book"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/colorAccent"
-        android:text="Book Room"
+        android:text="Call to Book"
         android:textColor="#ffffff" />
-</LinearLayout>
+</RelativeLayout>

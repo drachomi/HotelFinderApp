@@ -25,6 +25,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.richard.abigayle.hotelfinder.Helpers.HotelRepository;
 import com.richard.abigayle.hotelfinder.R;
+import com.richard.abigayle.hotelfinder.UiHelpers.HotelListViewModel;
 
 import java.util.Map;
 import java.util.Vector;
@@ -35,6 +36,7 @@ public class SearchActivity extends AppCompatActivity  {
     private Calendar calendar;
     private int year,month,day;
     private String location = "";
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

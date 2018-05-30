@@ -1,6 +1,7 @@
 package com.richard.abigayle.hotelfinder.Activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -26,37 +27,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         getLocation();
 
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d("location", "Finished accepting permision");
-        switch (requestCode) {
-            case MY_ACCESS_COARSE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Please accept permissions", Toast.LENGTH_LONG).show();
-                    getLocation();
 
-                }
-
-            }
-
-
-        }
-    }
-
+    @SuppressLint("MissingPermission")
     void getLocation() {
-        Log.d("location", "Entered Get location");
-
-
-        Log.d("location", "getting to mLOcationClient.getLatsLocation");
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        }
 
         mLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -71,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 //                            HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
 //                            hotelRepository.scanFetch(mlocation);
                             Log.d("location", "finished scan");
+
 
 
 //                            Intent i = new Intent(MainActivity.this, HotelDetailsActivity.class);

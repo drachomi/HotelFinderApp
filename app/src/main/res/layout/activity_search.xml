@@ -212,6 +212,7 @@
             app:cardElevation="5dp">
 
             <ImageView
+                android:onClick="featured"
                 android:id="@+id/york"
                 android:scaleType="centerCrop"
                 android:layout_width="wrap_content"

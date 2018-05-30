@@ -15,6 +15,7 @@ import java.util.List;
 
 public class HotelListViewModel extends AndroidViewModel {
     private HotelRepository mHotelRepo;
+
     private LiveData<List<Hotels>> mgetAllHotel;
 
     public HotelListViewModel(Application application) {
@@ -22,9 +23,12 @@ public class HotelListViewModel extends AndroidViewModel {
 
         mHotelRepo = new HotelRepository(application);
         mgetAllHotel = mHotelRepo.getAllHotels();
+
+
     }
     public LiveData<List<Hotels>>getAllHotel(){
         return mgetAllHotel;
     }
+
 
 }

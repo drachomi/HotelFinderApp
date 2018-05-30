@@ -26,7 +26,9 @@ public interface HotelNetworkClient {
             @QueryMap Map<String,String>parame
     );
 
-    @GET("maps/api/place/details/json")
-    Call<MainResponse>nextPage(@Query("pagetoken") String tokener);
+    @GET("/maps/api/place/nearbysearch/json")
+    Call<MainResponse>nextPage(
+            @QueryMap Map<String,String> params
+    );
 }
 

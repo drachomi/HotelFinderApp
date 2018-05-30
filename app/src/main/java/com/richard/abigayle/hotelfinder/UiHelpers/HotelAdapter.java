@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,13 +41,6 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
             imageView = itemView.findViewById(R.id.display_image);
             ratingBar = itemView.findViewById(R.id.rating);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(itemView.getContext(), HotelDetailsActivity.class);
-
-                }
-            });
         }
     }
     private List<Hotels>mHotels;
@@ -57,18 +51,31 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
 
 
 
-    private Bitmap getImage(String path){
-        File imgFile = new File(path);
-        Bitmap myBitmap = null;
+    private Bitmap getImage(String path,int position){
+        File imgFile;
 
-        if(imgFile.exists()) {
+        final Bitmap[] myBitmap = {null};
 
-             myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        if(!path.equals("")) {
+            imgFile = new File(path);
+            Log.d("bitmap","path is " + path);
+            Log.d("bitmap","Image exist " + position);
+            new AsyncTask<Void,Void,Void>(){
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    myBitmap[0] = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    return null;
+                }
+            }.execute();
+
+
         }
-        else {
-            myBitmap = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom);
+        if(path.equals("")){
+            //imgFile = new File(path);
+            myBitmap[0] = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom);
+            Log.d("bitmap","No image " + position);
         }
-        return myBitmap;
+        return myBitmap[0];
 
     }
     public void setHotels(List<Hotels> hotel){
@@ -88,24 +95,31 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
 
     @Override
     public void onBindViewHolder(myViewHolder holder, int position) {
-        if(mHotels!=null){
-            Log.d("ari","Hotel is not null");
-            Hotels hotel = mHotels.get(position);
-            Log.d("ari","Got position");
-            holder.name.setText(hotel.placeName.toString());
-            holder.address.setText(hotel.placeAd.toString());
-            holder.km_away.setText(String.valueOf(hotel.distance));
-            holder.imageView.setImageBitmap(getImage(hotel.imageId1));
+        Hotels hotel = mHotels.get(position);
+        if(hotel.placeName!=null){
+
+            holder.name.setText(hotel.placeName);
+            holder.address.setText(hotel.placeAd);
+            holder.km_away.setText(String.valueOf(hotel.duration));
             holder.ratingBar.setRating(hotel.placeRating);
+            if (hotel.imageId1 == null){
+                holder.imageView.setImageBitmap(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom));
+            }
+            else {
+                holder.imageView.setImageBitmap(getImage(hotel.imageId1,position));
+            }
+
+
+
 
         }
-        else {
+
+        if(hotel.placeName== null){
             holder.name.setText("Hotel Name");
             holder.address.setText("Address incoming");
             holder.km_away.setText("35000");
-            holder.imageView.setImageBitmap(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom));
             holder.ratingBar.setRating(3);
-
+            holder.imageView.setImageBitmap(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom));
         }
 
 
@@ -121,11 +135,5 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
         }
 
     }
-
-
-
-
-
-
 
 }
