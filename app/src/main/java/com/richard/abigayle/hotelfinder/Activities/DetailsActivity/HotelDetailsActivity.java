@@ -1,5 +1,8 @@
 package com.richard.abigayle.hotelfinder.Activities.DetailsActivity;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -7,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -42,19 +46,15 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
     CarouselView carouselView;
 
     DetailsActivityViewModel mViewModel;
-   Toolbar actionBar;
-//   Intent intent = getIntent();
-//   Bundle bundle = intent.getExtras();
-//   int position = bundle.getInt("position");
 
    HotelDao hotelDao;
     Bitmap[] imageToDisplay = new Bitmap[3];
     int intent_postion;
+    Hotels mHotels;
+    SupportMapFragment mapFragment;
 
 
 
-
-    Hotels mHotels ;
     ImageListener imageListener;
 
 
@@ -66,30 +66,32 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_details);
         Bundle extras = getIntent().getExtras();
+        intent_postion = extras.getInt("position");
+        carouselView = findViewById(R.id.carouselView);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
-        if(extras!=null){
-            intent_postion = extras.getInt("position");
-            Toast.makeText(this, "position is " + intent_postion, Toast.LENGTH_SHORT).show();
-            Log.d("position", "position is "+intent_postion);
 
-            HotelDatabase hotelDb = HotelDatabase.getInstance(getApplicationContext());
-            hotelDao = hotelDb.hotelDao();
-            carouselView = findViewById(R.id.carouselView);
-             new HotelTask().execute();
+        mViewModel = ViewModelProviders.of(this).get(DetailsActivityViewModel.class);
+        mViewModel.getHotels(intent_postion).observe(this, new Observer<Hotels>() {
+            @Override
+            public void onChanged(@Nullable Hotels hotels) {
+                mHotels = hotels;
 
-        }
+                imageToDisplay[0] = getImage(mHotels.imageId1);
+                imageToDisplay[1] = getImage(mHotels.imageId2);
+                imageToDisplay[2] = getImage(mHotels.imageId3);
+
+
+
+                carouselView.setImageListener(imageListener);
+                carouselView.setPageCount(imageToDisplay.length);
+                bindDataToUi();
+
+            }
+        });
+
 
         imageListener = (position, imageView) -> imageView.setImageBitmap(imageToDisplay[position]);
-
-
-
-
-//        actionBar = findViewById(R.id.my_toolbar);
-//        setSupportActionBar(actionBar);
-
-
-
-
 
 
         TabHost tabHost = findViewById(android.R.id.tabhost);
@@ -114,8 +116,8 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
 
 
         Log.d("shoot","Got to HotelDetailClass");
-       SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
+
 
 
     }
@@ -139,6 +141,7 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
         telephone.setText(mHotels.telephone);
         website.setText(mHotels.website);
         ratingBar.setRating(mHotels.placeRating);
+        mapFragment.getMapAsync(this);
 
 
     }
@@ -173,35 +176,7 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
 
     }
 
-    private class HotelTask extends AsyncTask<Void, Void, Hotels> {
 
-        @Override
-        protected Hotels doInBackground(Void... voids) {
-
-            mHotels = hotelDao.oneHotel(intent_postion);
-
-            return mHotels;
-        }
-
-        @Override
-        protected void onPostExecute(Hotels hotels) {
-            imageToDisplay[0] = getImage(mHotels.imageId1);
-            imageToDisplay[1] = getImage(mHotels.imageId2);
-            imageToDisplay[2] = getImage(mHotels.imageId3);
-
-
-
-            carouselView = findViewById(R.id.carouselView);
-            carouselView.setImageListener(imageListener);
-            carouselView.setPageCount(imageToDisplay.length);
-            bindDataToUi();
-
-
-
-
-            super.onPostExecute(hotels);
-        }
-    }
 
     public void book(View view){
         Uri number = Uri.parse("tel:" + mHotels.telephone);

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.richard.abigayle.hotelfinder.Activities.DetailsActivity.HotelDetailsActivity;
 import com.richard.abigayle.hotelfinder.Helpers.Hotels;
 import com.richard.abigayle.hotelfinder.R;
@@ -51,33 +52,20 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
 
 
 
-    private Bitmap getImage(String path,int position){
-        File imgFile;
-
-        final Bitmap[] myBitmap = {null};
-
-        if(!path.equals("")) {
-            imgFile = new File(path);
-            Log.d("bitmap","path is " + path);
-            Log.d("bitmap","Image exist " + position);
-            new AsyncTask<Void,Void,Void>(){
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    myBitmap[0] = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                    return null;
-                }
-            }.execute();
-
-
-        }
-        if(path.equals("")){
-            //imgFile = new File(path);
-            myBitmap[0] = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom);
-            Log.d("bitmap","No image " + position);
-        }
-        return myBitmap[0];
-
-    }
+//    private Bitmap getImage(String path,int position){
+//        File imgFile;
+//
+//         Bitmap myBitmap = null;
+//
+//
+//            imgFile = new File(path);
+//            Log.d("bitmap","path is " + path);
+//            Log.d("bitmap","Image exist " + position);
+//            myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+//
+//        return myBitmap;
+//
+//    }
     public void setHotels(List<Hotels> hotel){
         mHotels = hotel;
         notifyDataSetChanged();
@@ -103,10 +91,13 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
             holder.km_away.setText(String.valueOf(hotel.duration));
             holder.ratingBar.setRating(hotel.placeRating);
             if (hotel.imageId1 == null){
-                holder.imageView.setImageBitmap(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom));
+                holder.imageView.setImageResource(R.drawable.wifi_purple);
             }
             else {
-                holder.imageView.setImageBitmap(getImage(hotel.imageId1,position));
+
+                Glide.with(holder.imageView.getContext())
+                        .load(new File(hotel.imageId2))
+                        .into(holder.imageView);
             }
 
 

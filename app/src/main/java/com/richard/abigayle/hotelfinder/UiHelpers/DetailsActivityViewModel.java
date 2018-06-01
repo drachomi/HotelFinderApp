@@ -1,5 +1,8 @@
 package com.richard.abigayle.hotelfinder.UiHelpers;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
@@ -11,25 +14,23 @@ import com.richard.abigayle.hotelfinder.Helpers.Hotels;
  * Created by LENOVO on 3/22/2018.
  */
 
-public class DetailsActivityViewModel extends ViewModel {
+public class DetailsActivityViewModel extends AndroidViewModel {
+   private HotelRepository hotelRepository;
+   private LiveData<Hotels>mHotels;
 
 
-    private MutableLiveData<Hotels> mHotels;
+    public DetailsActivityViewModel(Application application){
+        super(application);
+       hotelRepository = new HotelRepository(application);
 
-    public DetailsActivityViewModel(){
-        mHotels = new MutableLiveData<>();
 
     }
 
-    public MutableLiveData<Hotels> getHotels(){
+
+
+    public LiveData<Hotels> getHotels(int position){
+        mHotels = hotelRepository.getSingleHotel(position);
         return mHotels;
-    }
-    public void setHotels(Hotels hotels){
-        Log.d("shoot","Entered Set hotel in ViewModel class");
-
-        mHotels.postValue(hotels);
-        Log.d("shoot","Finished posting value to ROOM from view model");
-
     }
 
 }

@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBufferResponse;
@@ -49,6 +50,7 @@ public class HotelRepository {
 
 
     private LiveData<List<Hotels>> mHotels;
+    private LiveData<Hotels>hotel;
 
 
     private  HotelDao mHotelDao;
@@ -69,12 +71,16 @@ public class HotelRepository {
 
         mHotelDao = hotelDb.hotelDao();
         mHotels = mHotelDao.getAll();
+
         context = application;
     }
     public LiveData<List<Hotels>>getAllHotels(){
         return mHotels;
     }
-
+    public LiveData<Hotels>getSingleHotel(int viewposition){
+        hotel = mHotelDao.singleHotel(viewposition);
+        return hotel;
+    }
 
 
 
@@ -124,13 +130,14 @@ public class HotelRepository {
 
                     for (int i = 0; i < response.body().getResults().size(); i++) {
                         String place_id = response.body().getResults().get(i).getPlaceId();
-                        Log.d("place ", place_id + "is " + i);
+                        Log.d("place", place_id + "is " + i);
 
                         if(!myDir.exists()){
                             myDir.mkdirs();
 
                         }
                         if(i==19){
+                            Log.d("nine ", place_id + "is " + i);
                             nextPage(token);
                         }
 
@@ -171,7 +178,11 @@ public class HotelRepository {
                     return;
                 }
                 else {
-
+                    for (int i = 0; i < response.body().getResults().size(); i++) {
+                        String place_id = response.body().getResults().get(i).getPlaceId();
+                        Log.d("place ", place_id + "is " + i);
+                        getHotelDetails(place_id, i+20);
+                    }
                 }
 
             }
@@ -220,6 +231,7 @@ public class HotelRepository {
                     Log.d("latlng",latlong);
                     int pricelevel = place.getPriceLevel();
                     float rating = place.getRating();
+                    bufferResponse.release();
 
 
                     getPhoto(place_id,i);
@@ -229,9 +241,6 @@ public class HotelRepository {
                     insertToDb(hotels);
 
 
-
-
-                    bufferResponse.release();
 
 
                 } else {
@@ -269,18 +278,20 @@ public class HotelRepository {
                                 Task<PlacePhotoResponse> responseTask = mGoogleApiClient.getPhoto(placePhotoMetadata);
                                 responseTask.addOnCompleteListener(task1 -> {
                                     PlacePhotoResponse photo = task1.getResult();
-                                    Bitmap image1 = (b<a)? BitmapFactory.decodeResource(context.getResources(), R.drawable.hotelroom):photo.getBitmap();
+                                    Bitmap raw = photo.getBitmap();
+                                    Bitmap image1 = (b<a)? BitmapFactory.decodeResource(context.getResources(), R.drawable.markar):photo.getBitmap();
 
                                     imagestring.add(saveToInternalStorage(image1, place_id, a));
 
                                 });
                             }
                             else {
-                                Bitmap image1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.hotelroom);
+                                Bitmap image1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.markar);
                                 imagestring.add(saveToInternalStorage(image1,place_id,a));
                             }
 
                         }
+                photoMetadata.release();
                     }
         });
 

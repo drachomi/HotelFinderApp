@@ -3,6 +3,7 @@ package com.richard.abigayle.hotelfinder.Activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 
 import com.richard.abigayle.hotelfinder.Activities.DetailsActivity.HotelDetailsActivity;
 import com.richard.abigayle.hotelfinder.Helpers.HotelDao;
+import com.richard.abigayle.hotelfinder.Helpers.HotelDatabase;
 import com.richard.abigayle.hotelfinder.Helpers.Hotels;
 import com.richard.abigayle.hotelfinder.R;
 import com.richard.abigayle.hotelfinder.UiHelpers.HotelAdapter;
@@ -23,15 +25,17 @@ import java.util.List;
 public class HotelList extends AppCompatActivity {
     RecyclerView recyclerView;
 
-    HotelDao hotelDaol;
+    HotelDao hotelDao;
     List<Hotels> hotelsList;
     private HotelListViewModel viewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_list);
         final HotelAdapter hotelAdapter = new HotelAdapter(this);
+        hotelDao = HotelDatabase.getInstance(getApplication()).hotelDao();
 
         recyclerView = findViewById(R.id.recycle_view);
 
@@ -53,16 +57,27 @@ public class HotelList extends AppCompatActivity {
             }
         }));
         viewModel = ViewModelProviders.of(this).get(HotelListViewModel.class);
-        viewModel.getAllHotel().observe(this, new Observer<List<Hotels>>() {
+
+        viewModel.getAllHotel().observe(this, hotels -> hotelAdapter.setHotels(hotels));
+
+
+
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new AsyncTask<Void,Void,Void>(){
             @Override
-            public void onChanged(@Nullable List<Hotels> hotels) {
-                hotelAdapter.setHotels(hotels);
+            protected Void doInBackground(Void... voids) {
 
+                hotelDao.deleteAll();
+
+                return null;
             }
-        });
-
-
-
+        }.execute();
 
 
     }
