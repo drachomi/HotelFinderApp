@@ -52,20 +52,6 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
 
 
 
-//    private Bitmap getImage(String path,int position){
-//        File imgFile;
-//
-//         Bitmap myBitmap = null;
-//
-//
-//            imgFile = new File(path);
-//            Log.d("bitmap","path is " + path);
-//            Log.d("bitmap","Image exist " + position);
-//            myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-//
-//        return myBitmap;
-//
-//    }
     public void setHotels(List<Hotels> hotel){
         mHotels = hotel;
         notifyDataSetChanged();

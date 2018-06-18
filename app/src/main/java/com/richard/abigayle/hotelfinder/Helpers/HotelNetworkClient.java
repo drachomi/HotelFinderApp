@@ -1,7 +1,9 @@
 package com.richard.abigayle.hotelfinder.Helpers;
 
+import com.richard.abigayle.hotelfinder.POJO.DetailedResponse;
 import com.richard.abigayle.hotelfinder.POJO.DistanceBetween;
 import com.richard.abigayle.hotelfinder.POJO.MainResponse;
+import com.richard.abigayle.hotelfinder.POJO.Result;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,11 @@ public interface HotelNetworkClient {
 
     @GET("/maps/api/place/nearbysearch/json")
     Call<MainResponse>nextPage(
+            @QueryMap Map<String,String> params
+    );
+
+    @GET("/maps/api/place/details/json")
+    Call<DetailedResponse>details(
             @QueryMap Map<String,String> params
     );
 }

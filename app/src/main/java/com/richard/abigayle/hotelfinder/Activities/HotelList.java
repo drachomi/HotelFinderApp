@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.richard.abigayle.hotelfinder.Activities.DetailsActivity.HotelDetailsActivity;
 import com.richard.abigayle.hotelfinder.Helpers.HotelDao;
@@ -36,6 +37,7 @@ public class HotelList extends AppCompatActivity {
         setContentView(R.layout.activity_hotel_list);
         final HotelAdapter hotelAdapter = new HotelAdapter(this);
         hotelDao = HotelDatabase.getInstance(getApplication()).hotelDao();
+        ProgressBar progressBar = findViewById(R.id.list_progress);
 
         recyclerView = findViewById(R.id.recycle_view);
 
@@ -57,8 +59,15 @@ public class HotelList extends AppCompatActivity {
             }
         }));
         viewModel = ViewModelProviders.of(this).get(HotelListViewModel.class);
+        viewModel.getAllHotel().observe(this, new Observer<List<Hotels>>() {
+            @Override
+            public void onChanged(@Nullable List<Hotels> hotels) {
+                progressBar.setVisibility(View.GONE);
+                hotelAdapter.setHotels(hotels);
+            }
+        });
 
-        viewModel.getAllHotel().observe(this, hotels -> hotelAdapter.setHotels(hotels));
+
 
 
 

@@ -40,6 +40,8 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HotelDetailsActivity extends AppCompatActivity implements OnMapReadyCallback   {
 
@@ -48,7 +50,8 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
     DetailsActivityViewModel mViewModel;
 
    HotelDao hotelDao;
-    Bitmap[] imageToDisplay = new Bitmap[3];
+    //Bitmap[] imageToDisplay = new Bitmap[3];
+    List<Bitmap> imageToDisplay = new ArrayList<>();
     int intent_postion;
     Hotels mHotels;
     SupportMapFragment mapFragment;
@@ -76,22 +79,21 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onChanged(@Nullable Hotels hotels) {
                 mHotels = hotels;
-
-                imageToDisplay[0] = getImage(mHotels.imageId1);
-                imageToDisplay[1] = getImage(mHotels.imageId2);
-                imageToDisplay[2] = getImage(mHotels.imageId3);
+                imageToDisplay.add(getImage(mHotels.imageId1));
+                imageToDisplay.add(getImage(mHotels.imageId2));
+                imageToDisplay.add(getImage(mHotels.imageId3));
 
 
 
                 carouselView.setImageListener(imageListener);
-                carouselView.setPageCount(imageToDisplay.length);
+                carouselView.setPageCount(imageToDisplay.size());
                 bindDataToUi();
 
             }
         });
 
 
-        imageListener = (position, imageView) -> imageView.setImageBitmap(imageToDisplay[position]);
+        imageListener = (position, imageView) -> imageView.setImageBitmap(imageToDisplay.get(position));
 
 
         TabHost tabHost = findViewById(android.R.id.tabhost);
@@ -100,11 +102,6 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
         TabHost.TabSpec mSpec = tabHost.newTabSpec("Overview");
         mSpec.setContent(R.id.overview_tabs);
         mSpec.setIndicator("Overview");
-        tabHost.addTab(mSpec);
-
-        mSpec = tabHost.newTabSpec("Features");
-        mSpec.setContent(R.id.feature_tabs);
-        mSpec.setIndicator("Features");
         tabHost.addTab(mSpec);
 
         mSpec = tabHost.newTabSpec("Map");
@@ -161,15 +158,13 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
 
 
     private Bitmap getImage(String path){
-        File imgFile = new File(path);
 
         Bitmap myBitmap = null;
-
-        if(imgFile.exists()) {
-
+        if(!path.equals("null")){
+            File imgFile = new File(path);
             myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         }
-        else {
+        if(path.equals("null")){
             myBitmap = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom);
         }
         return myBitmap;

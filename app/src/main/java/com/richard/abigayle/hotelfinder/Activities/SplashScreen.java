@@ -23,7 +23,7 @@ import com.richard.abigayle.hotelfinder.R;
 import com.richard.abigayle.hotelfinder.UiHelpers.HotelListViewModel;
 
 public class SplashScreen extends AppCompatActivity {
-    private  final int SPLASH_TIME_OUT = 30000;
+    private  final int SPLASH_TIME_OUT = 1000;
     final int MY_WRITE_EXTERNAL_STORAGE = 900;
     HotelDao hotelDao;
 
@@ -46,13 +46,10 @@ public class SplashScreen extends AppCompatActivity {
         Log.d("location",location);
         hotelRepository.scanFetch(location);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(SplashScreen.this,HotelList.class);
-                startActivity(i);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent i = new Intent(SplashScreen.this,HotelList.class);
+            startActivity(i);
+            finish();
         },SPLASH_TIME_OUT);
 
 

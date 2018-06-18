@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     final int MY_ACCESS_COARSE_LOCATION = 200;
     private FusedLocationProviderClient mLocationClient;
+    String mLocation = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
                       //  Log.d("location",location.toString());
                         if (location != null) {
 
-                            String mlocation = location.getLatitude() + "," + location.getLongitude();
-                            Log.d("location", mlocation);
+                             mLocation = location.getLatitude() + "," + location.getLongitude();
+                            Log.d("location", mLocation);
                             Log.d("location", "About to create repo");
 //                            HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
 //                            hotelRepository.scanFetch(mlocation);
                             Log.d("location", "finished scan");
+
 
 
 
@@ -58,12 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                         if (location == null) {
+                            mLocation = "6.5243793,3.3792057";
                             Log.d("location", "Getting null response");
                             Toast.makeText(MainActivity.this, "LOCATEION IS NUll", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
         Intent i = new Intent(MainActivity.this, SearchActivity.class);
+        Bundle bundle = new Bundle();
+        i.putExtra("location",mLocation);
         startActivity(i);
         }
 

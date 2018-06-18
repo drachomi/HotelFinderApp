@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by LENOVO on 4/3/2018.
+ * Created by LENOVO on 6/1/2018.
  */
 
-public class MainResponse {
+public class DetailedResponse {
     @SerializedName("html_attributions")
     @Expose
     private List<Object> html_attributions = new ArrayList<Object>();
@@ -19,10 +19,11 @@ public class MainResponse {
     @Expose
     private String next_page_token;
 
-
-    @SerializedName("results")
+    @SerializedName("result")
     @Expose
-    private List<Result> result = new ArrayList<>();
+    private Result results;
+
+
 
     @SerializedName("status")
     @Expose
@@ -36,20 +37,20 @@ public class MainResponse {
         this.html_attributions = html_attributions;
     }
 
-    public List<Result> getResult() {
-        return result;
-    }
-
-    public void setResult(List<Result> result) {
-        this.result = result;
-    }
-
     public String getNext_page_token() {
         return next_page_token;
     }
 
     public void setNext_page_token(String next_page_token) {
         this.next_page_token = next_page_token;
+    }
+
+    public Result getResults() {
+        return results;
+    }
+
+    public void setResults(Result results) {
+        this.results = results;
     }
 
 
@@ -61,5 +62,4 @@ public class MainResponse {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

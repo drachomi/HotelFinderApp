@@ -11,6 +11,10 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
@@ -22,8 +26,10 @@ import com.google.android.gms.location.places.PlacePhotoResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.richard.abigayle.hotelfinder.POJO.DetailedResponse;
 import com.richard.abigayle.hotelfinder.POJO.DistanceBetween;
 import com.richard.abigayle.hotelfinder.POJO.MainResponse;
+import com.richard.abigayle.hotelfinder.POJO.Result;
 import com.richard.abigayle.hotelfinder.R;
 
 import java.io.File;
@@ -45,7 +51,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class HotelRepository {
-
     GeoDataClient mGoogleApiClient;
 
 
@@ -55,15 +60,13 @@ public class HotelRepository {
 
     private  HotelDao mHotelDao;
     private Context context;
-    private int count;
-    private boolean isFinished = false;
     String root = Environment.getExternalStorageDirectory().toString();
     File myDir = new File(root + "/hotel_images");
     int radius_count = 0;
 
 
 
-    private boolean mInitialized = false;
+
 
 
     public HotelRepository(Application application) {
@@ -86,9 +89,7 @@ public class HotelRepository {
 
 
 
-    private boolean isFetchedNeeded() {
-        return true;
-    }
+
 
     //TODO Create method that scans with nextpage tokener
     public void scanFetch(String location) {
@@ -98,7 +99,7 @@ public class HotelRepository {
         Map<String, String> param = new HashMap<>();
         param.put("location", location);
         param.put("key", key);
-        param.put("type", "lodging");
+        param.put("type", "school");
         if(radius_count == 0){
             param.put("radius", "1000");
         }
@@ -121,16 +122,20 @@ public class HotelRepository {
         call.enqueue(new Callback<MainResponse>() {
             @Override
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
-                if(response.body().getResults().isEmpty()){
+                if(response.body().getResult().isEmpty()){
                     radius_count = 99;
                     scanFetch(location);
                 }
                 else {
                     String token = response.body().getNext_page_token();
 
-                    for (int i = 0; i < response.body().getResults().size(); i++) {
-                        String place_id = response.body().getResults().get(i).getPlaceId();
-                        Log.d("place", place_id + "is " + i);
+                    for (int i = 0; i < response.body().getResult().size(); i++) {
+                        String place_id = response.body().getResult().get(i).getPlaceId();
+                        String name = response.body().getResult().get(i).getName();
+                        String vicinity = response.body().getResult().get(i).getVicinity();
+
+
+                        Log.d("school ", name + "address " + vicinity);
 
                         if(!myDir.exists()){
                             myDir.mkdirs();
@@ -174,14 +179,21 @@ public class HotelRepository {
             @Override
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
                 Log.d("nextPage","Got response");
-                if(response.body().getResults().isEmpty()){
+                if(response.body().getResult().isEmpty()){
                     return;
                 }
                 else {
-                    for (int i = 0; i < response.body().getResults().size(); i++) {
-                        String place_id = response.body().getResults().get(i).getPlaceId();
-                        Log.d("place ", place_id + "is " + i);
+                    for (int i = 0; i < response.body().getResult().size(); i++) {
+                        String place_id = response.body().getResult().get(i).getPlaceId();
+                        String name = response.body().getResult().get(i).getName();
+                        String vicinity = response.body().getResult().get(i).getVicinity();
+
+                        Log.d("school ", name + "address " + vicinity);
+
                         getHotelDetails(place_id, i+20);
+                        nextPage(response.body().getNext_page_token());
+
+
                     }
                 }
 
@@ -234,7 +246,8 @@ public class HotelRepository {
                     bufferResponse.release();
 
 
-                    getPhoto(place_id,i);
+//                    getPhoto(place_id,i);
+                    getPhoto(place_id);
 
                     Hotels hotels = new Hotels(i,place_id,place_name,telephone,address,website,pricelevel,rating,latlong,null,null,null,null,null);
 
@@ -278,7 +291,7 @@ public class HotelRepository {
                                 Task<PlacePhotoResponse> responseTask = mGoogleApiClient.getPhoto(placePhotoMetadata);
                                 responseTask.addOnCompleteListener(task1 -> {
                                     PlacePhotoResponse photo = task1.getResult();
-                                    Bitmap raw = photo.getBitmap();
+                                   // Bitmap raw = photo.getBitmap();
                                     Bitmap image1 = (b<a)? BitmapFactory.decodeResource(context.getResources(), R.drawable.markar):photo.getBitmap();
 
                                     imagestring.add(saveToInternalStorage(image1, place_id, a));
@@ -304,6 +317,7 @@ public class HotelRepository {
         File mypath = cw.getDir("hotel_images",Context.MODE_PRIVATE);
 
         File imagepath = new File(mypath, "place_id"+fname );
+
 
         new AsyncTask<String,Void,String>(){
             @Override
@@ -412,6 +426,59 @@ public class HotelRepository {
 
 
 
+
+    void getPhoto(String  place_id){
+            String photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
+            String key = "AIzaSyBWKQHS39-SYUNxEEAry1FxrMET2NwhqxE";
+            Map<String, String> param = new HashMap<>();
+            param.put("place_id",place_id);
+            param.put("key", key);
+        getDistance("place_id:ChIJQbZ_dzGSOxARugpHaf3JWN0",place_id,place_id);
+        Log.d("count",place_id);
+
+
+
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/")
+                .addConverterFactory( GsonConverterFactory.create());
+        Retrofit retrofit = retrofitBuilder.build();
+
+
+        HotelNetworkClient networkClient = retrofit.create(HotelNetworkClient.class);
+
+        Call<DetailedResponse> call = networkClient.details(param);
+        call.enqueue(new Callback<DetailedResponse>(){
+            @Override
+            public void onResponse(Call<DetailedResponse> call, Response<DetailedResponse> response) {
+                int count = response.body().getResults().getPhotos().size();
+                String name = response.body().getResults().getName();
+                for (int i = 0; i<3;i++){
+                    int a = i;
+
+                    String photo_ref = (count > i)? response.body().getResults().getPhotos().get(i).getPhotoReference():null;
+
+
+                    Glide.with(context)
+                            .load(photo_url + photo_ref + "&key=" + key)
+                            .asBitmap()
+                            .into(new SimpleTarget<Bitmap>(300,300) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation)  {
+                            saveToInternalStorage(resource,place_id,a);
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailedResponse> call, Throwable t) {
+
+            }
+        });
+
+
+    }
 
 
 
