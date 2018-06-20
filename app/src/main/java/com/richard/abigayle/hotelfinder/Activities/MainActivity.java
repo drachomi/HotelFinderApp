@@ -46,30 +46,20 @@ public class MainActivity extends AppCompatActivity {
                         if (location != null) {
 
                              mLocation = location.getLatitude() + "," + location.getLongitude();
-                            Log.d("location", mLocation);
-                            Log.d("location", "About to create repo");
-//                            HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
-//                            hotelRepository.scanFetch(mlocation);
-                            Log.d("location", "finished scan");
-
-
-
-
-//                            Intent i = new Intent(MainActivity.this, HotelDetailsActivity.class);
-//                            startActivity(i);
-
+                            Log.d("location from ",mLocation);
                         }
                         if (location == null) {
                             mLocation = "6.5243793,3.3792057";
                             Log.d("location", "Getting null response");
                             Toast.makeText(MainActivity.this, "LOCATEION IS NUll", Toast.LENGTH_LONG).show();
                         }
+                        Intent i = new Intent(MainActivity.this, SearchActivity.class);
+                        i.putExtra("location",mLocation);
+
+                        startActivity(i);
                     }
                 });
-        Intent i = new Intent(MainActivity.this, SearchActivity.class);
-        Bundle bundle = new Bundle();
-        i.putExtra("location",mLocation);
-        startActivity(i);
+
         }
 
 

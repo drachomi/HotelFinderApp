@@ -77,7 +77,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.myViewHolder
             holder.km_away.setText(String.valueOf(hotel.duration));
             holder.ratingBar.setRating(hotel.placeRating);
             if (hotel.imageId1 == null){
-                holder.imageView.setImageResource(R.drawable.wifi_purple);
+                holder.imageView.setImageResource(R.drawable.gate);
             }
             else {
 

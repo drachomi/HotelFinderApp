@@ -122,6 +122,7 @@ public class HotelRepository {
         call.enqueue(new Callback<MainResponse>() {
             @Override
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
+                Log.d("response",response.body().getStatus());
                 if(response.body().getResult().isEmpty()){
                     radius_count = 99;
                     scanFetch(location);
@@ -476,6 +477,60 @@ public class HotelRepository {
 
             }
         });
+
+
+    }
+
+    void getDetail(String place_id, int i){
+        Map<String,String>param = new HashMap<>();
+        String key = "AIzaSyBWKQHS39-SYUNxEEAry1FxrMET2NwhqxE";
+        param.put("place_id",place_id);
+        param.put("key",key);
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        HotelNetworkClient networkClient = retrofit.create(HotelNetworkClient.class);
+        Call<DetailedResponse> call = networkClient.details(param);
+        call.enqueue(new Callback<DetailedResponse>() {
+            @Override
+            public void onResponse(Call<DetailedResponse> call, Response<DetailedResponse> response) {
+                String website;
+
+               String place_name = response.body().getResults().getName();
+                String telephone = response.body().getResults().getTelephone();
+                String address = response.body().getResults().getVicinity();
+                int pricelevel = response.body().getResults().getPriceLevel();
+                float rating = response.body().getResults().getRating();
+                Double lat = response.body().getResults().getGeometry().getLocation().getLat();
+                Double lng = response.body().getResults().getGeometry().getLocation().getLng();
+                String latlong = lat+","+lng;
+
+
+
+
+                if (response.body().getResults().getWebsite() != null) {
+                    website = response.body().getResults().getWebsite();
+                } else {
+                    website = response.body().getResults().getUrl();
+                }
+
+                getPhoto(place_id);
+
+                Hotels hotels = new Hotels(i,place_id,place_name,telephone,address,website,pricelevel,rating,latlong,null,null,null,null,null);
+
+                insertToDb(hotels);
+
+            }
+
+            @Override
+            public void onFailure(Call<DetailedResponse> call, Throwable t) {
+
+            }
+        });
+
 
 
     }

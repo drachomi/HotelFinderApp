@@ -34,7 +34,7 @@ public class Result {
     private String placeId;
     @SerializedName("rating")
     @Expose
-    private Double rating;
+    private float rating;
     @SerializedName("reference")
     @Expose
     private String reference;
@@ -50,7 +50,40 @@ public class Result {
     @SerializedName("price_level")
     @Expose
     private Integer priceLevel;
+    @SerializedName("international_phone_number")
+    @Expose
+    private String telephone;
 
+    @SerializedName("website")
+    @Expose
+    private String website;
+    @SerializedName("url")
+    @Expose
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 
     public Geometry getGeometry() {
         return geometry;
@@ -108,11 +141,11 @@ public class Result {
         this.placeId = placeId;
     }
 
-    public Double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

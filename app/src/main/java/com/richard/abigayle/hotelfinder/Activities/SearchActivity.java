@@ -47,6 +47,7 @@ public class SearchActivity extends AppCompatActivity  {
         setContentView(R.layout.search);
 
         Bundle bundle = getIntent().getExtras();
+        curLocation = bundle.getString("location");
 
 
         autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
