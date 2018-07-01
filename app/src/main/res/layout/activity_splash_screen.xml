@@ -11,7 +11,8 @@
         android:layout_centerInParent="true"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:src="@drawable/finder"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/logoschool"/>
 
     <TextView
         android:textStyle="italic"

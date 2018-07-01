@@ -8,22 +8,18 @@
     tools:context="com.richard.abigayle.hotelfinder.Activities.HotelList">
 
     <FrameLayout
+        android:background="@color/colorPrimary"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
-        <ImageView
-            android:src="@drawable/york"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:layout_height="70dp">
         <TextView
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#fff"
             android:textSize="30sp"
             android:textStyle="italic"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="List page"/>
+            android:text="Search Results"/>
 
     </FrameLayout>
     <ProgressBar

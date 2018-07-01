@@ -42,7 +42,6 @@ public class SplashScreen extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String location = bundle.getString("location");
         HotelRepository hotelRepository = new HotelRepository((Application) getApplicationContext());
-        Toast.makeText(this,"location is "+location,Toast.LENGTH_SHORT).show();
         Log.d("location",location);
         hotelRepository.scanFetch(location);
 

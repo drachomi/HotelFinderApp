@@ -160,12 +160,12 @@ public class HotelDetailsActivity extends AppCompatActivity implements OnMapRead
     private Bitmap getImage(String path){
 
         Bitmap myBitmap = null;
-        if(!path.equals("null")){
+        if(!path.equals("")){
             File imgFile = new File(path);
             myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         }
-        if(path.equals("null")){
-            myBitmap = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.hotelroom);
+        if(path.equals("")){
+            myBitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.gate);
         }
         return myBitmap;
 

@@ -192,7 +192,7 @@ public class HotelRepository {
                         Log.d("school ", name + "address " + vicinity);
 
                         getHotelDetails(place_id, i+20);
-                        nextPage(response.body().getNext_page_token());
+                        //nextPage(response.body().getNext_page_token());
 
 
                     }
@@ -250,7 +250,7 @@ public class HotelRepository {
 //                    getPhoto(place_id,i);
                     getPhoto(place_id);
 
-                    Hotels hotels = new Hotels(i,place_id,place_name,telephone,address,website,pricelevel,rating,latlong,null,null,null,null,null);
+                    Hotels hotels = new Hotels(i,place_id,place_name,telephone,address,website,pricelevel,rating,latlong,"","","",null,null);
 
                     insertToDb(hotels);
 
